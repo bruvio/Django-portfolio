@@ -15,3 +15,14 @@
     </form>
 </div>
 
+{% for project in projects %}
+
+<h2>{{ project.title  }}</h2>
+<p>{{ project.description  }}</p>
+<img src="{{ project.image.url  }}" height=40, width = 50>
+{% if project.url %}
+
+<br><a href="{{ project.url }}">Link</a>
+{% endif %}
+
+{% endfor %}
