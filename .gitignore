@@ -1,2 +1,2 @@
-portfolio/__pycache__/
-personal_portfolio/__pycache__/
+portfolio/__pycache__/*
+personal_portfolio/__pycache__/*
