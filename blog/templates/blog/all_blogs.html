@@ -19,6 +19,6 @@
 
 <a href="{% url 'blog:detail' blog.id %}"><h2>{{ blog.title  }}</h2></a>
 <p>{{ blog.description  }}</p>
-<p>{{ blog.date  }}</p>
+<p>{{ blog.date|date:'M d Y|upper'  }}</p>
 
 {% endfor %}
