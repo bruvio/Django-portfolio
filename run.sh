@@ -23,6 +23,15 @@ python manage.py migrate
 python manage.py createsu
 python manage.py runserver
 
+# aws rds create-db-instance \
+#     --db-instance-identifier portfolio \
+#     --db-instance-class db.t3.micro \
+#     --engine postgres \
+#     --master-username admin \
+#     --master-user-password secret99 \
+#     --allocated-storage 5
+
+
 #  eb init -p python-3.8 django-portfolio
 
 #  eb create django-env
