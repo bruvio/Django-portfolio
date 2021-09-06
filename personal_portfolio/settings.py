@@ -10,6 +10,7 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/3.2/ref/settings/
 """
 
+import os
 from pathlib import Path
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -41,6 +42,7 @@ INSTALLED_APPS = [
     "django.contrib.staticfiles",
     "blog",
     "portfolio",
+    # 'storages',
 ]
 
 MIDDLEWARE = [
@@ -77,12 +79,18 @@ WSGI_APPLICATION = "personal_portfolio.wsgi.application"
 # Database
 # https://docs.djangoproject.com/en/3.2/ref/settings/#databases
 
-DATABASES = {
-    "default": {
-        "ENGINE": "django.db.backends.sqlite3",
-        "NAME": BASE_DIR / "db.sqlite3",
+
+if "RDS_DB_NAME" in os.environ:
+    DATABASES = {
+        "default": {
+            "ENGINE": "django.db.backends.postgresql_psycopg2",
+            "NAME": os.environ["RDS_DB_NAME"],
+            "USER": os.environ["RDS_USERNAME"],
+            "PASSWORD": os.environ["RDS_PASSWORD"],
+            "HOST": os.environ["RDS_HOSTNAME"],
+            "PORT": os.environ["RDS_PORT"],
+        }
     }
-}
 
 
 # Password validation
@@ -121,17 +129,35 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/3.2/howto/static-files/
 
-STATIC_URL = "/static/"
-STATIC_ROOT = BASE_DIR / "static"
+
 # Default primary key field type
 # https://docs.djangoproject.com/en/3.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
-MEDIA_URL = "/media/"
-MEDIA_ROOT = BASE_DIR / "media"
 
+
+### Django storages - use this for production
+# STATICFILES_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage'
+### Django storages - use in production
+# DEFAULT_FILE_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage'
 
 try:
     from .local_settings import *
 except ImportError:
     print("no local file found")
+if "AWS_ACCESS_KEY_ID" in os.environ:
+    AWS_ACCESS_KEY_ID = os.environ["AWS_ACCESS_KEY_ID"]
+    AWS_SECRET_KEY = os.environ["AWS_SECRET_KEY"]
+    AWS_STORAGE_BUCKET_NAME = os.environ["AWS_STORAGE_BUCKET_NAME"]
+    AWS_S3_REGION_NAME = os.environ["AWS_S3_REGION_NAME"]
+
+
+"""
+Use this as a template to add environment variables with the CLI
+--------------------------------------------------------------
+eb setenv \
+AWS_ACCESS_KEY_ID='' \
+AWS_SECRET_ACCESS_KEY='' \
+AWS_STORAGE_BUCKET_NAME='' \
+AWS_S3_REGION_NAME=''
+"""
