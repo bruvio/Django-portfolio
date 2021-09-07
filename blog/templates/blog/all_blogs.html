@@ -1,0 +1,27 @@
+{% extends  'portfolio/base.html' %}
+
+{% block content  %}
+Hello blog
+
+<h2>{{ blog_count }} blog{{ blog_count|pluralize }} written</h2>
+
+
+<!-- <div class="container text-center"> -->
+    <h1>bruvio blog</h1>
+    <a href="{% url 'about' %}">About page</a>
+    <br>
+    <br>
+    {% for blog in all_blogs %}
+
+    <a href="{% url 'blog:detail' blog.id %}"><h2>{{ blog.title  }}</h2></a>
+    <p>{{ blog.date|date:'M d Y'|upper  }}</p>
+    <p>{{ blog.description|striptags|truncatechars:100  }}</p>
+
+
+    {% endfor %}
+
+
+
+
+<!-- </div> -->
+{% endblock %}

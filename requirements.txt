@@ -1,0 +1,8 @@
+django
+pillow
+psycopg2
+django-storages
+boto3
+psycopg2-binary
+awsebcli
+python-decouple

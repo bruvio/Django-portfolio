@@ -1,0 +1,11 @@
+I needed to this recently and also wanted to automate the steps using the AWS CLI/EB CLI. In any case, here are basically the steps I followed (assuming you already created an RDS instance):
+
+Make sure you have a different security group setup for your RDS instance (not the VPC default group). You can use aws ec2 create-security-group (AWS CLI) for that and associate it with the RDS instance using aws rds modify-db-instance (AWS CLI).
+Initialize your beanstalk application (I used eb init (EB CLI) for that).
+Read relevant configuration data from your RDS database (DB name, host name, port, etc). I used aws rds describe-db-instances for that.
+Using that data set the RDS_* environment variables on the EB instance when you create the environment (or deploy the environment later). You can do this with eb create/eb deploy (EB CLI). When you create the environment initially it will be degraded, since the security groups to access the RDS database are not set up properly.
+Get the relevant security groups from the EB configuration. You need the one for the autoscaling group and for the elastic load balancer. You can use aws elasticbeanstalk describe-configuration-settings (AWS CLI) for that.
+Authorize your autoscaling group for inbound traffic to your database for the security group you set up in step 1. I used aws ec2 authorize-security-group-ingress (AWS CLI) for that, which uses VPC security groups (not DB security groups). You can probably achieve the same with DB security groups if they are supported in your region. When setting up the inbound traffic rule make sure you use the right protocal and port for your database engine.
+Add the elastic load balancer group to the security groups of your RDS instance (again using aws rds modify-db-instance (AWS CLI)).
+Reboot or redeploy the Elastic Beanstalk application (e.g. using eb deploy (EB CLI)). I had to do a redeploy, since I run migrations on deployments.
+That is mostly it. Now you should be able to scale up/down your RDS instances without care of the EB instances, as long you keep the hostname and DB credentials the same. You can also do blue/green deployments with that approach (but you might need to do some extra steps to also revoke security group access).
