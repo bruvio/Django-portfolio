@@ -2,6 +2,7 @@
 # db.sqlite3
 .env
 local_settings.py
+eb_setenv.sh
 # Elastic Beanstalk Files
 .elasticbeanstalk/*
 !.elasticbeanstalk/*.cfg.yml
