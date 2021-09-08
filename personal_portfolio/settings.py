@@ -124,25 +124,10 @@ USE_TZ = True
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
 STATIC_URL = "/static/"
-# DEFAULT_FILE_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage'
 STATIC_ROOT = BASE_DIR / "static"
-STATICFILES_STORAGE = "storages.backends.s3boto3.S3Boto3Storage"
 
 MEDIA_URL = "/media/"
 MEDIA_ROOT = BASE_DIR / "media"
-DEFAULT_FILE_STORAGE = "storages.backends.s3boto3.S3Boto3Storage"
-
-
-DATABASES = {
-    "default": {
-        "ENGINE": "django.db.backends.postgresql_psycopg2",
-        "NAME": "portfolio",
-        "USER": config("postgres-local-user"),
-        "PASSWORD": config("postgres-local-password"),
-        "HOST": "localhost",
-        "PORT": "5432",
-    }
-}
 
 
 try:
@@ -151,6 +136,7 @@ except ImportError:
     print("no local file found")
     ## Django storages - use this for production
     STATICFILES_STORAGE = "storages.backends.s3boto3.S3Boto3Storage"
+    DEFAULT_FILE_STORAGE = "storages.backends.s3boto3.S3Boto3Storage"
     print("no local file found you are in production")
     # Database
     # https://docs.djangoproject.com/en/3.2/ref/settings/#databases
@@ -170,14 +156,3 @@ AWS_ACCESS_KEY_ID = config("AWS_ACCESS_KEY_ID")
 AWS_SECRET_ACCESS_KEY = config("AWS_SECRET_ACCESS_KEY")
 AWS_STORAGE_BUCKET_NAME = config("AWS_STORAGE_BUCKET_NAME")
 AWS_S3_REGION_NAME = config("AWS_S3_REGION_NAME")
-
-
-"""
-Use this as a template to add environment variables with the CLI
---------------------------------------------------------------
-eb setenv \
-AWS_ACCESS_KEY_ID='' \
-AWS_SECRET_ACCESS_KEY='' \
-AWS_STORAGE_BUCKET_NAME='' \
-AWS_S3_REGION_NAME=''
-"""
