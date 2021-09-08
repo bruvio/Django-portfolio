@@ -23,16 +23,14 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/3.2/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = config("SECRET_KEY")
+
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = False
-DEBUG = True
 
 ALLOWED_HOSTS = [
     "*",
 ]
-ALLOWED_HOSTS = [".elasticbeanstalk.com", "127.0.0.1", "0.0.0.0", "*"]
 
 
 # Application definition
@@ -46,7 +44,6 @@ INSTALLED_APPS = [
     "django.contrib.staticfiles",
     "blog",
     "portfolio",
-    # 'storages',
     "storages",
 ]
 
@@ -132,8 +129,18 @@ MEDIA_ROOT = BASE_DIR / "media"
 
 try:
     from .local_settings import *
+
+    SECRET_KEY = config("SECRET_KEY")
+    AWS_ACCESS_KEY_ID = config("AWS_ACCESS_KEY_ID")
+    AWS_SECRET_ACCESS_KEY = config("AWS_SECRET_ACCESS_KEY")
+    AWS_STORAGE_BUCKET_NAME = config("AWS_STORAGE_BUCKET_NAME")
+    AWS_S3_REGION_NAME = config("AWS_S3_REGION_NAME")
+
 except ImportError:
     print("no local file found")
+
+    SECRET_KEY = os.environ["SECRET_KEY"]
+
     ## Django storages - use this for production
     STATICFILES_STORAGE = "storages.backends.s3boto3.S3Boto3Storage"
     DEFAULT_FILE_STORAGE = "storages.backends.s3boto3.S3Boto3Storage"
@@ -151,8 +158,3 @@ except ImportError:
             "PORT": os.environ["RDS_PORT"],
         }
     }
-
-AWS_ACCESS_KEY_ID = config("AWS_ACCESS_KEY_ID")
-AWS_SECRET_ACCESS_KEY = config("AWS_SECRET_ACCESS_KEY")
-AWS_STORAGE_BUCKET_NAME = config("AWS_STORAGE_BUCKET_NAME")
-AWS_S3_REGION_NAME = config("AWS_S3_REGION_NAME")

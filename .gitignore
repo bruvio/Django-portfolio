@@ -4,6 +4,7 @@
 local_settings.py
 eb_setenv.sh
 *.orig
+*.pyc
 # Elastic Beanstalk Files
 .elasticbeanstalk/*
 !.elasticbeanstalk/*.cfg.yml
