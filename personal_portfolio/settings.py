@@ -14,6 +14,7 @@ import os
 from pathlib import Path
 
 from decouple import config
+from django.core.management import utils
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -32,7 +33,7 @@ ALLOWED_HOSTS = [
     "*",
 ]
 
-
+SECRET_KEY = utils.get_random_secret_key()
 # Application definition
 
 INSTALLED_APPS = [
@@ -130,7 +131,6 @@ MEDIA_ROOT = BASE_DIR / "media"
 try:
     from .local_settings import *
 
-    SECRET_KEY = config("SECRET_KEY")
     AWS_ACCESS_KEY_ID = config("AWS_ACCESS_KEY_ID")
     AWS_SECRET_ACCESS_KEY = config("AWS_SECRET_ACCESS_KEY")
     AWS_STORAGE_BUCKET_NAME = config("AWS_STORAGE_BUCKET_NAME")
@@ -138,8 +138,6 @@ try:
 
 except ImportError:
     print("no local file found")
-
-    SECRET_KEY = os.environ["SECRET_KEY"]
 
     ## Django storages - use this for production
     STATICFILES_STORAGE = "storages.backends.s3boto3.S3Boto3Storage"
