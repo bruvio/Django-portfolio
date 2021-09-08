@@ -13,6 +13,8 @@ https://docs.djangoproject.com/en/3.2/ref/settings/
 import os
 from pathlib import Path
 
+from decouple import config
+
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -76,33 +78,6 @@ TEMPLATES = [
 WSGI_APPLICATION = "personal_portfolio.wsgi.application"
 
 
-# Database
-# https://docs.djangoproject.com/en/3.2/ref/settings/#databases
-
-
-if "RDS_DB_NAME" in os.environ:
-    DATABASES = {
-        "default": {
-            "ENGINE": "django.db.backends.postgresql_psycopg2",
-            "NAME": os.environ["RDS_DB_NAME"],
-            "USER": os.environ["RDS_USERNAME"],
-            "PASSWORD": os.environ["RDS_PASSWORD"],
-            "HOST": os.environ["RDS_HOSTNAME"],
-            "PORT": os.environ["RDS_PORT"],
-        }
-    }
-else:
-    DATABASES = {
-        "default": {
-            "ENGINE": "django.db.backends.postgresql_psycopg2",
-            "NAME": "portfolio",
-            "USER": "postgres",
-            "PASSWORD": "bruvio",
-            "HOST": "localhost",
-            "PORT": "",
-        }
-    }
-
 # Password validation
 # https://docs.djangoproject.com/en/3.2/ref/settings/#auth-password-validators
 
@@ -145,21 +120,29 @@ USE_TZ = True
 
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
-
-### Django storages - use this for production
-# STATICFILES_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage'
-### Django storages - use in production
+STATIC_URL = "/static/"
 # DEFAULT_FILE_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage'
 
 try:
     from .local_settings import *
 except ImportError:
     print("no local file found")
-if "AWS_ACCESS_KEY_ID" in os.environ:
-    AWS_ACCESS_KEY_ID = os.environ["AWS_ACCESS_KEY_ID"]
-    AWS_SECRET_KEY = os.environ["AWS_SECRET_KEY"]
-    AWS_STORAGE_BUCKET_NAME = os.environ["AWS_STORAGE_BUCKET_NAME"]
-    AWS_S3_REGION_NAME = os.environ["AWS_S3_REGION_NAME"]
+    ## Django storages - use this for production
+    STATICFILES_STORAGE = "storages.backends.s3boto3.S3Boto3Storage"
+    DATABASES = {
+        "default": {
+            "ENGINE": "django.db.backends.postgresql_psycopg2",
+            "NAME": "portfolio",
+            "USER": "postgres",
+            "PASSWORD": "lorokpopen",
+            "HOST": "portfolio.cr3ovrvrhazw.us-east-1.rds.amazonaws.com",
+            "PORT": "5432",
+        }
+    }
+AWS_ACCESS_KEY_ID = config("AWS_ACCESS_KEY_ID")
+AWS_SECRET_ACCESS_KEY = config("AWS_SECRET_ACCESS_KEY")
+AWS_STORAGE_BUCKET_NAME = config("AWS_STORAGE_BUCKET_NAME")
+AWS_S3_REGION_NAME = config("AWS_S3_REGION_NAME")
 
 
 """
