@@ -27,6 +27,7 @@ SECRET_KEY = "django-insecure-w=jp7h*^7occppycw4l6a*&ja%#=0_#_qwr=_&krq8e@@m*dkm
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = False
+DEBUG = True
 
 ALLOWED_HOSTS = [
     "*",
@@ -123,6 +124,19 @@ DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 STATIC_URL = "/static/"
 # DEFAULT_FILE_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage'
 
+
+DATABASES = {
+    "default": {
+        "ENGINE": "django.db.backends.postgresql_psycopg2",
+        "NAME": "portfolio",
+        "USER": "postgres",
+        "PASSWORD": "bruvio",
+        "HOST": "localhost",
+        "PORT": "",
+    }
+}
+
+
 try:
     from .local_settings import *
 except ImportError:
@@ -132,11 +146,11 @@ except ImportError:
     DATABASES = {
         "default": {
             "ENGINE": "django.db.backends.postgresql_psycopg2",
-            "NAME": "portfolio",
-            "USER": "postgres",
-            "PASSWORD": "lorokpopen",
-            "HOST": "portfolio.cr3ovrvrhazw.us-east-1.rds.amazonaws.com",
-            "PORT": "5432",
+            "NAME": os.environ["RDS_DB_NAME"],
+            "USER": os.environ["RDS_USERNAME"],
+            "PASSWORD": os.environ["RDS_PASSWORD"],
+            "HOST": os.environ["RDS_HOSTNAME"],
+            "PORT": os.environ["RDS_PORT"],
         }
     }
 AWS_ACCESS_KEY_ID = config("AWS_ACCESS_KEY_ID")
