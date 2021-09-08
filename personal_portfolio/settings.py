@@ -26,12 +26,14 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = "django-insecure-w=jp7h*^7occppycw4l6a*&ja%#=0_#_qwr=_&krq8e@@m*dkm"
 
 # SECURITY WARNING: don't run with debug turned on in production!
+DEBUG = False
 DEBUG = True
 
 ALLOWED_HOSTS = [
     "*",
 ]
 ALLOWED_HOSTS = [".elasticbeanstalk.com", "127.0.0.1", "0.0.0.0", "*"]
+
 
 # Application definition
 
@@ -45,6 +47,7 @@ INSTALLED_APPS = [
     "blog",
     "portfolio",
     # 'storages',
+    "storages",
 ]
 
 MIDDLEWARE = [
@@ -122,6 +125,12 @@ DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
 STATIC_URL = "/static/"
 # DEFAULT_FILE_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage'
+STATIC_ROOT = BASE_DIR / "static"
+STATICFILES_STORAGE = "storages.backends.s3boto3.S3Boto3Storage"
+
+MEDIA_URL = "/media/"
+MEDIA_ROOT = BASE_DIR / "media"
+DEFAULT_FILE_STORAGE = "storages.backends.s3boto3.S3Boto3Storage"
 
 
 DATABASES = {
@@ -142,6 +151,10 @@ except ImportError:
     print("no local file found")
     ## Django storages - use this for production
     STATICFILES_STORAGE = "storages.backends.s3boto3.S3Boto3Storage"
+    print("no local file found you are in production")
+    # Database
+    # https://docs.djangoproject.com/en/3.2/ref/settings/#databases
+
     DATABASES = {
         "default": {
             "ENGINE": "django.db.backends.postgresql_psycopg2",
@@ -152,6 +165,7 @@ except ImportError:
             "PORT": os.environ["RDS_PORT"],
         }
     }
+
 AWS_ACCESS_KEY_ID = config("AWS_ACCESS_KEY_ID")
 AWS_SECRET_ACCESS_KEY = config("AWS_SECRET_ACCESS_KEY")
 AWS_STORAGE_BUCKET_NAME = config("AWS_STORAGE_BUCKET_NAME")
