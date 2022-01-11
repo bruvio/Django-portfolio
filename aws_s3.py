@@ -140,16 +140,10 @@ def read_df_from_s3(historical_file_name, bucket):
 
     # load historical data from s3
     data_obj = s3.get_object(Bucket=bucket, Key=historical_file_name)
-    data = pd.read_csv(data_obj["Body"], low_memory=False)
-    return data
+    return pd.read_csv(data_obj["Body"], low_memory=False)
 
 
 def read_json_s3(file_name, bucket):
     # define s3 client
     s3 = boto3.client("s3")
-    # define file names
-
-    # load historical data from s3
-    data_obj = s3.get_object(Bucket=bucket, Key=file_name)
-
-    return data_obj
+    return s3.get_object(Bucket=bucket, Key=file_name)
