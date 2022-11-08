@@ -1,0 +1,22 @@
+[tool.poetry]
+name = "personal_portfolio-project"
+version = "0.1.0"
+description = ""
+authors = ["bruvio <bruno.viola@pm.me>"]
+
+[tool.poetry.dependencies]
+python = "^3.8"
+Django = "^3.2"
+boto3 = "^1"
+awsebcli = "^3.20.3"
+python-decouple = "^3.6"
+django-storages = "^1.12.3"
+Pillow = "^9.1.0"
+pandas = "^1.4.2"
+psycopg2-binary = "^2.9.5"
+
+[tool.poetry.dev-dependencies]
+
+[build-system]
+requires = ["poetry-core>=1.0.0"]
+build-backend = "poetry.core.masonry.api"
