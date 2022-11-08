@@ -1,12 +1,16 @@
+from pathlib import Path
+
+from decouple import AutoConfig
 from django.contrib.auth.models import User
 from django.core.management.base import BaseCommand
 
-from decouple import AutoConfig
 BASE_DIR = Path(__file__).resolve().parent.parent.parent.parent
+print(BASE_DIR)
 config = AutoConfig(search_path=BASE_DIR)
 admin = config("admin")
 admin_email = config("admin_email")
 admin_password = config("admin_password")
+
 
 class Command(BaseCommand):
     def handle(self, *args, **options):
