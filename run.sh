@@ -7,6 +7,7 @@ export ADMIN=admin
 python manage.py wait_for_db
 python create_s3bucket.py
 python manage.py makemigrations
+python manage.py collectstatic --no-input
 python manage.py migrate
 python manage.py createsu
 python manage.py runserver
