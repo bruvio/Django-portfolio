@@ -1,31 +1,37 @@
 # importing base image
-FROM python:3.8
+FROM bruvio/alpine-postgres-pandas-numpy:poetry
+LABEL maintainer="bruno.viola@pm.me"
 
-# updating docker host or host machine
-RUN apt-get update \
-    && apt-get install -y --no-install-recommends \
-    && rm -rf /var/lib/apt/lists/*
+ENV PYTHONDONTWRITEBYTECODE 1
+ENV PYTHONUNBUFFERED 1
+# set up the psycopg2
+RUN python -c "import pandas as pd; print('\n \n Pandas version is ',pd.__version__)"
+RUN mkdir /code
+WORKDIR /code
 
-# changing current working directory to /usr/src/app
-WORKDIR /usr/src/app
+COPY . /code/
 
-# copying requirement.txt file to present working directory
-COPY requirements.txt ./
-
-# installing dependency in container
-RUN pip install -r requirements.txt
-
-# copying all the files to present working directory
-COPY . .
-
-# informing Docker that the container listens on the
-# specified network ports at runtime i.e 8000.
-EXPOSE 8000
-
-# running server
-CMD ["python", "manage.py", "runserver", "0.0.0.0:8000"]
+RUN poetry config virtualenvs.create false \
+    && poetry install --no-interaction --no-ansi
 
 
-# docker build -t django-app:version-1 .
-# docker run -i -p 8000:8000 -d django-app:version-1
-# docker exec -it xxx bash
+
+ENV PATH="/scripts:${PATH}"
+
+
+
+
+COPY ./scripts/ /scripts/
+RUN chmod +x /scripts/*
+
+
+RUN mkdir -p /vol/web/media
+RUN mkdir -p /vol/web/static
+# RUN adduser --disabled-password --gecos '' user
+RUN adduser -D user
+RUN chown -R user:user /vol/
+RUN chmod -R 755 /vol/web
+USER user
+VOLUME /vol/web
+
+CMD ["entrypoint.sh"]
