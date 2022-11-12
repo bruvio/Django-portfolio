@@ -40,5 +40,8 @@ services:
       - POSTGRES_DB=app
       - POSTGRES_USER=postgres
       - POSTGRES_PASSWORD=postgres
+      - ADMIN_EMAIL=admin@admin.com
+      - ADMIN_PASSWORD=secret
+      - ADMIN=admin
 volumes:
   static_data:

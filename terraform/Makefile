@@ -23,7 +23,7 @@ CLEANFILES = .terraform.lock.hcl $(TFDIR) *.plan
 all: init validate plan
 
 init:
-	@ test -d $(TFDIR) || $(TF) init
+	@ test -d $(TFDIR) || $(TF) init -var-file=dev.tfvars
 
 # -backend-config=$(CONFIG)
 

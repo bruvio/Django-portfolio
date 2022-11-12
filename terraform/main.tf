@@ -1,12 +1,12 @@
-# terraform {
-#   backend "s3" {
-#     bucket         = "bucket"
-#     key            = ".tfstate"
-#     region         = "us-east=1"
-#     encrypt        = true
-#     dynamodb_table = "table"
-#   }
-# }
+terraform {
+  backend "s3" {
+    bucket         = "bruvio-personal-portfolio-bucket-state"
+    key            = "personal_portfolio/personal_portfolio.tfstate"
+    region         = "us-east-1"
+    encrypt        = true
+    dynamodb_table = "state-table-name"
+  }
+}
 
 
 terraform {
@@ -27,7 +27,7 @@ provider "aws" {
 
 locals {
   contact = "bruno.viola@pm.me"
-  project = "personal_portoflio"
+  project = "personal-portoflio"
   region  = "${data.aws_region.current.name}"
   prefix  = "porfolio-${terraform.workspace}"
   common_tags = {
