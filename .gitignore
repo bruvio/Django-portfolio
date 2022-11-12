@@ -9,3 +9,12 @@ eb_setenv.sh
 .elasticbeanstalk/*
 !.elasticbeanstalk/*.cfg.yml
 !.elasticbeanstalk/*.global.yml
+db.sqlite3
+media/portfolio/images/trilogo_KKqoXEz.jpeg
+# static/
+terraform/.terraform.lock.hcl
+terraform/.terraform/
+terraform/personal_portoflio-myKey.pem
+terraform/terraform.tfstate
+terraform/terraform.tfstate.backup
+terraform/update.plan
