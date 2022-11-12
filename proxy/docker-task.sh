@@ -1,8 +1,7 @@
 #!/bin/bash
 # Helper scripts for working with Docker image and container.
 # Variables
-ECR_app_repo='traffic-api-proxy'
-# ECR_app_repo="traffic-api"
+ECR_app_repo='personal_portoflio-proxy'
 IMAGE_NAME=$ECR_app_repo
 CONTAINER_NAME=$IMAGE_NAME
 AWS_REGION="us-east-1"
