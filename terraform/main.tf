@@ -27,7 +27,7 @@ provider "aws" {
 
 locals {
   contact = "bruno.viola@pm.me"
-  project = "personal-portoflio"
+  project = "personal_portoflio"
   region  = "${data.aws_region.current.name}"
   prefix  = "porfolio-${terraform.workspace}"
   common_tags = {
