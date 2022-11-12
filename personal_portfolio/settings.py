@@ -121,12 +121,6 @@ USE_TZ = True
 
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
-STATIC_URL = "/static/"
-STATIC_ROOT = BASE_DIR / "static"
-
-MEDIA_URL = "/media/"
-MEDIA_ROOT = BASE_DIR / "media"
-
 
 if SYSTEM_ENV == "PRODUCTION":
     print(SYSTEM_ENV)
@@ -141,6 +135,10 @@ if SYSTEM_ENV == "PRODUCTION":
             "PASSWORD": os.environ.get("DB_PASS"),
         }
     }
+    MEDIA_ROOT = "/vol/web/media"
+    STATIC_ROOT = "/vol/web/static"
+    STATIC_URL = "/static/static/"
+    MEDIA_URL = "/static/media/"
 
 
 elif SYSTEM_ENV == "NOPOSTGRES":
@@ -154,3 +152,19 @@ elif SYSTEM_ENV == "NOPOSTGRES":
             "NAME": os.path.join(BASE_DIR, "db.sqlite3"),
         }
     }
+
+    STATIC_URL = "/static/"
+    STATIC_ROOT = BASE_DIR / "static"
+
+    MEDIA_URL = "/media/"
+    MEDIA_ROOT = BASE_DIR / "media"
+
+
+S3_STORAGE_BACKEND = bool(int(os.environ.get("S3_STORAGE_BACKEND", 1)))
+if S3_STORAGE_BACKEND is True:
+    DEFAULT_FILE_STORAGE = "storages.backends.s3boto3.S3Boto3Storage"
+
+AWS_DEFAULT_ACL = "public-read"
+AWS_STORAGE_BUCKET_NAME = os.environ.get("S3_STORAGE_BUCKET_NAME")
+AWS_S3_REGION_NAME = os.environ.get("S3_STORAGE_BUCKET_REGION", "us-east-1")
+AWS_QUERYSTRING_AUTH = False
