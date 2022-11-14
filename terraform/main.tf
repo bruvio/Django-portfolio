@@ -47,7 +47,7 @@ data "aws_caller_identity" "current" {}
 
 
 module "personal_portfolio" {
-  source            = "git@github.com:bruvio/tf_fargate_django.git?ref=feature/reduce-costs"
+  source            = "git@github.com:bruvio/tf_fargate_django.git"
   project           = local.project
   admin             = var.admin
   table_name        = var.table_name
