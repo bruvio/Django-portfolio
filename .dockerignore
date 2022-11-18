@@ -28,3 +28,8 @@ aws_scripts.sh
 db.sqlite3
 docker-task.sh
 data_explore.ipynb
+media/
+data/
+.venv/
+terraform/
+static/

@@ -1,5 +1,5 @@
 # importing base image
-FROM bruvio/alpine-postgres-pandas-numpy:poetry
+FROM bruvio/alpine-postgres-pandas-numpy:py39-poetry
 LABEL maintainer="bruno.viola@pm.me"
 
 ENV PYTHONDONTWRITEBYTECODE 1
