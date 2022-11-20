@@ -1,5 +1,5 @@
 # importing base image
-FROM bruvio/alpine-postgres-pandas-numpy:py39-poetry
+FROM bruvio/alpine-postgres-pandas-numpy:py3-11-poetry-lowspace
 LABEL maintainer="bruno.viola@pm.me"
 
 ENV PYTHONDONTWRITEBYTECODE 1
@@ -10,7 +10,7 @@ RUN mkdir /code
 WORKDIR /code
 
 COPY . /code/
-
+RUN apk add --no-cache  g++ gcc libc-dev linux-headers
 RUN poetry config virtualenvs.create false \
     && poetry install --no-interaction --no-ansi
 
@@ -33,5 +33,7 @@ RUN chown -R user:user /vol/
 RUN chmod -R 755 /vol/web
 USER user
 VOLUME /vol/web
+
+
 
 CMD ["entrypoint.sh"]

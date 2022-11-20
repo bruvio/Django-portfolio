@@ -13,7 +13,7 @@ django-filter = "^21.1"
 django-storages = "^1.13.1"
 djangorestframework = "^3.13.1"
 psycopg2-binary = "^2.9.3"
-python = "^3.8"
+python = "^3.11"
 python-decouple = "^3.6"
 uWSGI = "^2.0.20"
 
