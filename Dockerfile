@@ -5,14 +5,18 @@ LABEL maintainer="bruno.viola@pm.me"
 ENV PYTHONDONTWRITEBYTECODE 1
 ENV PYTHONUNBUFFERED 1
 # set up the psycopg2
+
 RUN python -c "import pandas as pd; print('\n \n Pandas version is ',pd.__version__)"
+# RUN python -c "import uwsgi ; print('\n \n Uwsgi version is ',uwsgi.__version__)"
+RUN python -c "import numpy as np; print('\n \n Numpy version is ',np.__version__)"
+
 RUN mkdir /code
 WORKDIR /code
 
 COPY . /code/
-RUN apk add --no-cache  g++ gcc libc-dev linux-headers
+
 RUN poetry config virtualenvs.create false \
-    && poetry install --no-interaction --no-ansi
+    && poetry install --no-interaction --no-ansi --only main
 
 
 
